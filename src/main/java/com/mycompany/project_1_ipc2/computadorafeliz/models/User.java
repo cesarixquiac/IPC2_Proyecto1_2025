@@ -9,14 +9,26 @@ package com.mycompany.project_1_ipc2.computadorafeliz.models;
  * @author cesar
  */
 public class User {
+        private int id;  
+
+    
     private String nombreUsuario;
     private String password;
     private String tipoUsuario;
 
     public User(String nombreUsuario, String password, String tipoUsuario) {
+          this.id = id;  // Inicializamos el id
         this.nombreUsuario = nombreUsuario;
         this.password = password;
         this.tipoUsuario = tipoUsuario;
+    }
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombreUsuario() {

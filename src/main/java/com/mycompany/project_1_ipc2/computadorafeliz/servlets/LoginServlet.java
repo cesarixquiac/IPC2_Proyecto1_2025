@@ -99,7 +99,7 @@ public class LoginServlet extends HttpServlet {
                                 tipoUsuarioTexto = "Punto de Venta";
                                 break;
                             case "3":
-                                tipoUsuarioTexto = "Financiero";
+                                tipoUsuarioTexto = "Financiero y administracion";
                                 break;
                         }
 
