@@ -42,9 +42,9 @@ public class ComputadoraDAO {
 
             while (rs.next()) {
                 Computadora computadora = new Computadora(
-                        rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getDouble("precio")
+                        rs.getInt("id_computadora"),
+                        rs.getString("nombre_computadora"),
+                        rs.getDouble("precio_venta")
                 );
                 computadoras.add(computadora);
             }
@@ -56,7 +56,7 @@ public class ComputadoraDAO {
     }
 
     public Computadora buscarComputadoraPorId(int id) throws ClassNotFoundException {
-        String query = "SELECT * FROM Computadora WHERE id = ?";
+        String query = "SELECT * FROM computadoras WHERE id_computadora = ?";
         Computadora computadora = null;
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -67,9 +67,9 @@ public class ComputadoraDAO {
 
             if (rs.next()) {
                 computadora = new Computadora(
-                        rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getDouble("precio")
+                        rs.getInt("id_computadora"),
+                        rs.getString("nombre_computadora"),
+                        rs.getDouble("precio_venta")
                 );
             }
 

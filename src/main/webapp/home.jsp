@@ -29,7 +29,7 @@
                 <ul class="navbar-nav me-auto">
                     <% if ("Fábrica".equals(tipoUsuario)) { %>
                         <li class="nav-item"><a class="nav-link" href="PiezaServlet">Registrar Componentes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="ensamblaje.jsp">Ensamblar Computadoras</a></li>
+                        <li class="nav-item"><a class="nav-link" href="EnsamblajeServlet">Ensamblar Computadoras</a></li>
                     <% } else if ("Punto de Venta".equals(tipoUsuario)) { %>
                         <li class="nav-item"><a class="nav-link" href="ventas.jsp">Registrar Ventas</a></li>
                         <li class="nav-item"><a class="nav-link" href="devoluciones.jsp">Computadoras Devueltas</a></li>

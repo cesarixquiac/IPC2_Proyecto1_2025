@@ -28,6 +28,7 @@ public class UserDAO {
 
             while (rs.next()) {
                 User usuario = new User(
+                                            rs.getInt("id_usuario"),
                         rs.getString("nombre"),
                         rs.getString("password"),
                         rs.getString("tipo")
@@ -42,7 +43,7 @@ public class UserDAO {
 
     // Método para obtener un usuario por su ID
     public User obtenerUsuarioPorId(int id) throws ClassNotFoundException {
-        String query = "SELECT * FROM Usuario WHERE id = ?";
+        String query = "SELECT * FROM Usuarios WHERE id_usuario = ?";
         User usuario = null;
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -53,9 +54,10 @@ public class UserDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     usuario = new User(
-                            rs.getString("nombre"),
+                            rs.getInt("id_usuario"),
+                            rs.getString("nombre_usuario"),
                             rs.getString("password"),
-                            rs.getString("tipo")
+                            rs.getString("tipo_usuario")
                     );
                 }
             }

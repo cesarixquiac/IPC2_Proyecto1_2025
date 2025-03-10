@@ -16,7 +16,7 @@ public class User {
     private String password;
     private String tipoUsuario;
 
-    public User(String nombreUsuario, String password, String tipoUsuario) {
+    public User(int id, String nombreUsuario, String password, String tipoUsuario) {
           this.id = id;  // Inicializamos el id
         this.nombreUsuario = nombreUsuario;
         this.password = password;
