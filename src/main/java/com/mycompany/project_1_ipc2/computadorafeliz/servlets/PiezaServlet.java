@@ -110,7 +110,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
             
 
 //             Redirigir después de agregar la pieza
-            response.sendRedirect("piezas.jsp");
+            response.sendRedirect("PiezaServlet");
         } catch (Exception e) {
             e.printStackTrace();
         }
