@@ -38,7 +38,8 @@ public class ComputadoraServlet extends HttpServlet {
             try {
                 List<Computadora> computadoras = computadoraDAO.obtenerComputadoras();
                 request.setAttribute("computadoras", computadoras);
-                request.getRequestDispatcher("listComputadoras.jsp").forward(request, response);
+               request.getRequestDispatcher("computadora.jsp").forward(request, response);
+
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -60,14 +61,21 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     String nombre = request.getParameter("nombre");
     double precio = Double.parseDouble(request.getParameter("precio"));
 
-    // Crear la computadora usando el constructor con nombre y precio (el ID no es necesario aquí)
-    Computadora computadora = new Computadora(0, nombre, precio);  // El ID es 0 porque es nuevo y se generará automáticamente en la base de datos
+    Computadora computadora = new Computadora(0, nombre, precio);
 
     try {
         computadoraDAO.agregarComputadora(computadora);
-        response.sendRedirect("computadora?action=list");
+        
+        // Volver a cargar la lista de computadoras
+        List<Computadora> computadoras = computadoraDAO.obtenerComputadoras();
+        request.setAttribute("computadoras", computadoras);
+
+        // Redirigir directamente a computadora.jsp
+        request.getRequestDispatcher("computadora.jsp").forward(request, response);
     } catch (ClassNotFoundException e) {
         e.printStackTrace();
+        request.setAttribute("error", "Error al agregar la computadora.");
+        request.getRequestDispatcher("computadora.jsp").forward(request, response);
     }
 }
 
@@ -77,7 +85,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
         int id = Integer.parseInt(request.getParameter("id"));
         try {
             computadoraDAO.eliminarComputadora(id);
-            response.sendRedirect("computadora?action=list");
+                  request.getRequestDispatcher("computadora.jsp").forward(request, response);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -94,7 +102,7 @@ protected void doPut(HttpServletRequest request, HttpServletResponse response) t
 
     try {
         computadoraDAO.actualizarComputadora(computadora);
-        response.sendRedirect("computadora?action=list");
+                request.getRequestDispatcher("computadora.jsp").forward(request, response);
     } catch (ClassNotFoundException e) {
         e.printStackTrace();
     }

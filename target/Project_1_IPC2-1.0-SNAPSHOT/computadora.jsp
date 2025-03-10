@@ -1,45 +1,76 @@
-<%-- 
-    Document   : computadora
-    Created on : 9 mar 2025, 00:30:08
-    Author     : cesar
---%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.mycompany.project_1_ipc2.computadorafeliz.models.Computadora" %> 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Computadoras</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Lista de Computadoras</h1>
+<body class="bg-light">
 
-    <a href="computadoraServlet?action=add">Agregar Nueva Computadora</a>
+    <div class="container mt-4">
+        <h1 class="text-center">Lista de Computadoras</h1>
+        
+        <!-- Formulario para agregar computadora -->
+        <div class="card my-4">
+            <div class="card-header bg-primary text-white">Agregar Nueva Computadora</div>
+            <div class="card-body">
+                <form action="ComputadoraServlet" method="post">
+                    <input type="hidden" name="action" value="add">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre de la Computadora</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="precio" name="precio" step="0.01" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Registrar Computadora</button>
+                </form>
+            </div>
+        </div>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach var="computadora" items="${computadoras}">
+        <!-- Tabla de computadoras -->
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
                 <tr>
-                    <td>${computadora.id}</td>
-                    <td>${computadora.nombre}</td>
-                    <td>${computadora.precio}</td>
-                    <td>
-                        <a href="computadoraServlet?action=edit&id=${computadora.id}">Editar</a>
-                        <a href="computadoraServlet?action=delete&id=${computadora.id}">Eliminar</a>
-                    </td>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
                 </tr>
-            </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <% 
+                    List<Computadora> computadoras = (List<Computadora>) request.getAttribute("computadoras");
+                    if (computadoras != null) {
+                        for (Computadora computadora : computadoras) { 
+                %>
+                    <tr>
+                        <td><%= computadora.getId() %></td>
+                        <td><%= computadora.getNombre() %></td>
+                        <td>$<%= computadora.getPrecio() %></td>
+                        <td>
+                            <a href="ComputadoraServlet?action=edit&id=<%= computadora.getId() %>" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="ComputadoraServlet?action=delete&id=<%= computadora.getId() %>" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                <% 
+                        } 
+                    } else { 
+                %>
+                    <tr>
+                        <td colspan="4" class="text-center">No hay computadoras registradas.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

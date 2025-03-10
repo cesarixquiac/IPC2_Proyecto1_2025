@@ -18,7 +18,7 @@ import java.util.List;
 public class ComputadoraDAO {
 
     public void agregarComputadora(Computadora computadora) throws ClassNotFoundException {
-        String query = "INSERT INTO Computadora (nombre, precio) VALUES (?, ?)";
+        String query = "INSERT INTO computadoras (nombre_computadora, precio_venta) VALUES (?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -34,7 +34,7 @@ public class ComputadoraDAO {
 
     public List<Computadora> obtenerComputadoras() throws ClassNotFoundException {
         List<Computadora> computadoras = new ArrayList<>();
-        String query = "SELECT * FROM Computadora";
+        String query = "SELECT * FROM Computadoras";
 
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
