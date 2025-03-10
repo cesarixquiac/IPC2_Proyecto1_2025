@@ -14,6 +14,8 @@ public class Pieza {
         this.cantidad = cantidad;
     }
 
+    public Pieza(){}
+    
     public Pieza(int id, String tipo, double costo, int cantidad) {
         this.id_pieza = id;
         this.nombre_pieza = tipo;

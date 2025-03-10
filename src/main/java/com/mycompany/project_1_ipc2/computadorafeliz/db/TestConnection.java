@@ -46,6 +46,10 @@ public class TestConnection {
             } else {
                 System.out.println("No se pudo establecer la conexión.");
             }
+            
+            
+            
+            
         } catch (SQLException e) {
             System.out.println("Error al intentar conectar a la base de datos.");
             e.printStackTrace();

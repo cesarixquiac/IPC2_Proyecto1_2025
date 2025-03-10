@@ -8,6 +8,7 @@ import com.mycompany.project_1_ipc2.computadorafeliz.DAO.PiezaDAO;
 import com.mycompany.project_1_ipc2.computadorafeliz.models.Pieza;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -43,22 +44,30 @@ public class PiezaServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
      @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
-        List<Pieza> piezas = piezaDAO.obtenerTodasLasPiezas(); // Obtener todas las piezas
-
-        // Imprimir la lista de piezas para depuración
-        for (Pieza pieza : piezas) {
-            System.out.println("Pieza ID: " + pieza.getId() + ", Nombre: " + pieza.getTipo() + ", Costo: " + pieza.getCosto() + ", Cantidad: " + pieza.getCantidad());
+        List<Pieza> piezas = piezaDAO.obtenerTodasLasPiezas();
+        
+        // Verificación para asegurar que piezas no sea null
+        if (piezas == null) {
+            piezas = new ArrayList<>(); // Asignamos una lista vacía si es null
         }
 
+        // Depuración: Imprimir piezas
+        System.out.println("Piezas obtenidas: " + piezas.size() + " piezas");
+
         request.setAttribute("piezas", piezas);
-        request.getRequestDispatcher("/piezas.jsp").forward(request, response); // Redirigir a la JSP
-    } catch (ClassNotFoundException e) {
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtener las piezas");
+        request.setAttribute("success", true); // Agregamos un flag de éxito
+        request.getRequestDispatcher("piezas.jsp").forward(request, response);
+
+    } catch (Exception e) {
         e.printStackTrace();
+        request.setAttribute("success", false);
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtener las piezas");
     }
 }
+
+
 
        
      

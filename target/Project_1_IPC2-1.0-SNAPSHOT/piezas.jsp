@@ -1,12 +1,6 @@
-<%-- 
-    Document   : piezas.jsp
-    Created on : 9 mar 2025, 00:29:48
-    Author     : cesar
---%>
-
+<%@page import="com.mycompany.project_1_ipc2.computadorafeliz.models.Pieza"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -20,7 +14,13 @@
 <body>
     <div class="container">
         <h1 class="mt-4">Gestión de Piezas</h1>
-        
+
+        <!-- Mensaje de éxito -->
+        <% Boolean success = (Boolean) request.getAttribute("success");
+           if (success != null && success) { %>
+            <script>console.log("GET exitoso: Se obtuvieron las piezas correctamente.");</script>
+        <% } %>
+
         <!-- Formulario para agregar o editar una pieza -->
         <div class="card mt-4">
             <div class="card-header">
@@ -45,7 +45,7 @@
                 </form>
             </div>
         </div>
-        
+
         <!-- Tabla para listar las piezas -->
         <div class="card mt-4">
             <div class="card-header">
@@ -63,25 +63,51 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="pieza" items="${piezas}">
+                        <% 
+                            List<Pieza> piezas = (List<Pieza>) request.getAttribute("piezas");
+                            if (piezas != null && !piezas.isEmpty()) {
+                                for (Pieza pieza : piezas) { 
+                        %>
                             <tr>
-                                <td>${pieza.id_pieza}</td>
-                                <td>${pieza.nombre_pieza}</td>
-                                <td><fmt:formatNumber value="${pieza.costo}" type="currency" /></td>
-                                <td>${pieza.cantidad}</td>
+                                <td><%= pieza.getId() %></td>
+                                <td><%= pieza.getTipo() %></td>
+                                <td><%= pieza.getCosto() %></td>
+                                <td><%= pieza.getCantidad() %></td>
                                 <td>
-                                    <a href="PiezaServlet?id=${pieza.id_pieza}&action=edit" class="btn btn-warning btn-sm">Editar</a>
-                                    <a href="PiezaServlet?id=${pieza.id_pieza}&action=delete" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar esta pieza?');">Eliminar</a>
+                                    <a href="PiezaServlet?id=<%= pieza.getId() %>&action=edit" class="btn btn-warning btn-sm">Editar</a>
+                                    <a href="PiezaServlet?id=<%= pieza.getId() %>&action=delete" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar esta pieza?');">Eliminar</a>
                                 </td>
                             </tr>
-                        </c:forEach>
+                        <% 
+                                }
+                            } else { 
+                        %>
+                            <tr>
+                                <td colspan="5">No se encontraron piezas.</td>
+                            </tr>
+                        <% } %>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    <!-- Script para almacenar las piezas en un array de JavaScript -->
+    <script>
+        var piezas = [];
+        <% if (piezas != null && !piezas.isEmpty()) { %>
+            <% for (Pieza pieza : piezas) { %>
+                piezas.push({
+                    id: "<%= pieza.getId() %>",
+                    nombre: "<%= pieza.getTipo() %>",
+                    costo: "<%= pieza.getCosto() %>",
+                    cantidad: "<%= pieza.getCantidad() %>"
+                });
+            <% } %>
+            console.log("Piezas cargadas:", piezas);
+        <% } %>
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0-alpha1/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
