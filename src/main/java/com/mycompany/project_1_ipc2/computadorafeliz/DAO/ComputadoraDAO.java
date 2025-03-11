@@ -11,6 +11,7 @@ package com.mycompany.project_1_ipc2.computadorafeliz.DAO;
 
 import com.mycompany.project_1_ipc2.computadorafeliz.models.Computadora;
 import com.mycompany.project_1_ipc2.computadorafeliz.db.DatabaseConnection;
+import static com.mycompany.project_1_ipc2.computadorafeliz.db.DatabaseConnection.getConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,4 +109,23 @@ public class ComputadoraDAO {
             e.printStackTrace();
         }
     }
+    
+    public int obtenerIdComputadoraEnsamblada(int computadoraId) throws ClassNotFoundException {
+    int idComputadoraEnsamblada = -1;
+    String sql = "SELECT id_computadora_ensamblada FROM computadorasensambladas WHERE id_computadora = ?";
+    
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, computadoraId);
+        ResultSet rs = stmt.executeQuery();
+        
+        if (rs.next()) {
+            idComputadoraEnsamblada = rs.getInt("id_computadora_ensamblada");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return idComputadoraEnsamblada;
+}
+
 }

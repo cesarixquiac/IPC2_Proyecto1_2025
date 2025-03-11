@@ -5,8 +5,10 @@ D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\models\User.java
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\models\Venta.java
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\DAO\EnsamblarComputadoraDAO.java
+D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\db\TestPiezas.java
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\DAO\UserDAO.java
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\models\EnsamblarComputadora.java
+D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\servlets\VentaServlet.java
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\DAO\PiezaDAO.java
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\servlets\HomeServlet.java
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\servlets\ComputadoraServlet.java
@@ -15,6 +17,8 @@ D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\db\DatabaseConnection.java
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\servlets\CreateUserServlet.java
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\DAO\ComputadoraDAO.java
+D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\DAO\VentaDAO.java
+D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\DAO\ClienteDAO.java
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\models\Pieza.java
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\servlets\LoginServlet.java
 D:\cesar\Documents\Usac\2025\1 semestre\IPC2\1 Proyecto\Project_1_IPC2\src\main\java\com\mycompany\project_1_ipc2\computadorafeliz\servlets\PiezaServlet.java

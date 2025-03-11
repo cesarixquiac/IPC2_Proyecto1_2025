@@ -24,6 +24,10 @@
         <servlet-name>ComputadoraServlet</servlet-name>
         <servlet-class>com.mycompany.project_1_ipc2.computadorafeliz.servlets.ComputadoraServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Osito</servlet-name>
+        <servlet-class>com.mycompany.project_1_ipc2.computadorafeliz.servlets.Osito</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>ComputadoraServlet</servlet-name>
         <url-pattern>/ComputadoraServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Osito</servlet-name>
+        <url-pattern>/Osito</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

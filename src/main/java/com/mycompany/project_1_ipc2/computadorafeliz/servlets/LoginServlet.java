@@ -5,6 +5,7 @@
 package com.mycompany.project_1_ipc2.computadorafeliz.servlets;
 
 import com.mycompany.project_1_ipc2.computadorafeliz.db.DatabaseConnection;
+import com.mycompany.project_1_ipc2.computadorafeliz.models.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -71,53 +72,58 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String nombreUsuario = request.getParameter("nombre_usuario");
-        String password = request.getParameter("password");
+   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String nombreUsuario = request.getParameter("nombre_usuario");
+    String password = request.getParameter("password");
 
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            String query = "SELECT tipo_usuario FROM Usuarios WHERE nombre_usuario = ? AND password = ?";
+    try (Connection conn = DatabaseConnection.getConnection()) {
+        // Ahora también obtenemos el id_usuario
+        String query = "SELECT id_usuario, tipo_usuario FROM Usuarios WHERE nombre_usuario = ? AND password = ?";
 
-            try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                stmt.setString(1, nombreUsuario);
-                stmt.setString(2, password);
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, nombreUsuario);
+            stmt.setString(2, password);
 
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        String tipoUsuarioTexto = rs.getString("tipo_usuario"); // Obtiene el tipo de usuario
-
-                        // Crear sesión y almacenar valores
-                        HttpSession session = request.getSession();
-                        session.setAttribute("nombreUsuario", nombreUsuario);
-
-                         
-                        switch (tipoUsuarioTexto) {
-                            case "1":
-                                tipoUsuarioTexto = "Fábrica";
-                                break;
-                            case "2":
-                                tipoUsuarioTexto = "Punto de Venta";
-                                break;
-                            case "3":
-                                tipoUsuarioTexto = "Financiero y administracion";
-                                break;
-                        }
-
-//                        session.setAttribute("tipoUsuarioTexto", tipoUsuarioTexto);
-
-                        session.setAttribute("tipoUsuario", tipoUsuarioTexto); // Almacenar tipo de usuario
-
-                        response.sendRedirect("home.jsp"); // Redirigir al home
-                    } else {
-                        response.sendRedirect("login.jsp?error=true"); // Usuario o contraseña incorrectos
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int idUsuario = rs.getInt("id_usuario"); // Obtiene el ID
+                    String tipoUsuarioTexto = rs.getString("tipo_usuario");
+                    
+                    // Convertir valores de tipoUsuario
+                    switch (tipoUsuarioTexto) {
+                        case "1":
+                            tipoUsuarioTexto = "Fábrica";
+                            break;
+                        case "2":
+                            tipoUsuarioTexto = "Punto de Venta";
+                            break;
+                        case "3":
+                            tipoUsuarioTexto = "Financiero y administración";
+                            break;
                     }
+
+                    // Crear objeto User
+                    User usuario = new User(idUsuario, nombreUsuario, null,tipoUsuarioTexto);
+
+                    // Crear sesión y almacenar el objeto User
+                    HttpSession session = request.getSession();
+                    session.setAttribute("usuario", usuario); // Guarda el objeto completo
+                    session.setAttribute("nombreUsuario", nombreUsuario);
+                    session.setAttribute("tipoUsuario", tipoUsuarioTexto); // Almacenar tipo de usuario
+                    
+                    
+                    response.sendRedirect("home.jsp"); // Redirigir al home
+                } else {
+                    response.sendRedirect("login.jsp?error=true"); // Usuario o contraseña incorrectos
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect("login.jsp?error=db"); // Redirigir con error de base de datos
         }
+    } catch (Exception e) {
+        e.printStackTrace();
+        response.sendRedirect("login.jsp?error=db"); // Redirigir con error de base de datos
     }
+}
+
 
     /**
      * Returns a short description of the servlet.
