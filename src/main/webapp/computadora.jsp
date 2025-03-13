@@ -44,29 +44,34 @@
                 </tr>
             </thead>
             <tbody>
-                <% 
-                    List<Computadora> computadoras = (List<Computadora>) request.getAttribute("computadoras");
-                    if (computadoras != null) {
-                        for (Computadora computadora : computadoras) { 
-                %>
-                    <tr>
-                        <td><%= computadora.getId() %></td>
-                        <td><%= computadora.getNombre() %></td>
-                        <td>$<%= computadora.getPrecio() %></td>
-                        <td>
-                            <a href="ComputadoraServlet?action=edit&id=<%= computadora.getId() %>" class="btn btn-warning btn-sm">Editar</a>
-                            <a href="ComputadoraServlet?action=delete&id=<%= computadora.getId() %>" class="btn btn-danger btn-sm">Eliminar</a>
-                        </td>
-                    </tr>
-                <% 
-                        } 
-                    } else { 
-                %>
-                    <tr>
-                        <td colspan="4" class="text-center">No hay computadoras registradas.</td>
-                    </tr>
-                <% } %>
-            </tbody>
+    <% 
+        List<Computadora> computadoras = (List<Computadora>) request.getAttribute("computadoras");
+        if (computadoras != null && !computadoras.isEmpty()) {
+            for (Computadora computadora : computadoras) { 
+    %>
+        <tr>
+            <td><%= computadora.getId() %></td>
+            <td><%= computadora.getNombre() %></td>
+            <td>$<%= computadora.getPrecio() %></td>
+            <td>
+                <a href="ComputadoraServlet?action=edit&id=<%= computadora.getId() %>" class="btn btn-warning btn-sm">Editar</a>
+                <a href="ComputadoraServlet?action=delete&id=<%= computadora.getId() %>" 
+                   class="btn btn-danger btn-sm" 
+                   onclick="return confirm('¿Estás seguro de eliminar esta computadora?');">
+                   Eliminar
+                </a>
+            </td>
+        </tr>
+    <% 
+            } 
+        } else { 
+    %>
+        <tr>
+            <td colspan="4" class="text-center">No hay computadoras registradas.</td>
+        </tr>
+    <% } %>
+</tbody>
+
         </table>
     </div>
 

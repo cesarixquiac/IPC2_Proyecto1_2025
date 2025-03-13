@@ -96,19 +96,22 @@ public class ComputadoraDAO {
         }
     }
 
-    public void eliminarComputadora(int id) throws ClassNotFoundException {
-        String query = "DELETE FROM Computadora WHERE id = ?";
+    public boolean eliminarComputadora(int id) throws ClassNotFoundException {
+    String query = "DELETE FROM Computadoras  WHERE id_computadora = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        stmt.setInt(1, id);
+        int filasAfectadas = stmt.executeUpdate();
+        
+        return filasAfectadas > 0; // Devuelve true si se eliminó una fila
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
+}
+
     
     public int obtenerIdComputadoraEnsamblada(int computadoraId) throws ClassNotFoundException {
     int idComputadoraEnsamblada = -1;

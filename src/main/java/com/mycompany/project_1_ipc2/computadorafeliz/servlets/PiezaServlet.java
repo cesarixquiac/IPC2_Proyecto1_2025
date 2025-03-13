@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,26 +45,39 @@ public class PiezaServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     @Override
+@Override
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String action = request.getParameter("action");
+
+    if ("delete".equals(action)) {
+        try {
+            int idPieza = Integer.parseInt(request.getParameter("id"));
+            boolean eliminada = piezaDAO.eliminarPieza(idPieza);
+            
+            if (eliminada) {
+                System.out.println("Pieza eliminada con éxito. ID: " + idPieza);
+            } else {
+                System.out.println("Error al eliminar la pieza con ID: " + idPieza);
+            }
+
+            response.sendRedirect("PiezaServlet"); // Redirigir después de eliminar
+            return;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID de pieza inválido");
+            return;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PiezaServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    // Si no es delete, seguimos con la obtención normal de piezas
     try {
         List<Pieza> piezas = piezaDAO.obtenerTodasLasPiezas();
-        
-        // Verificación para asegurar que piezas no sea null
-        if (piezas == null) {
-            piezas = new ArrayList<>(); // Asignamos una lista vacía si es null
-        }
-
-        // Depuración: Imprimir piezas
-        System.out.println("Piezas obtenidas: " + piezas.size() + " piezas");
-
-        request.setAttribute("piezas", piezas);
-        request.setAttribute("success", true); // Agregamos un flag de éxito
+        request.setAttribute("piezas", piezas != null ? piezas : new ArrayList<>());
         request.getRequestDispatcher("piezas.jsp").forward(request, response);
-
     } catch (Exception e) {
         e.printStackTrace();
-        request.setAttribute("success", false);
         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtener las piezas");
     }
 }

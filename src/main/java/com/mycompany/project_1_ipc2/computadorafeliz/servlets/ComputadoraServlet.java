@@ -30,31 +30,44 @@ public class ComputadoraServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    String action = request.getParameter("action");
 
-        if (action == null) {
-            // Obtener todas las computadoras
-            try {
-                List<Computadora> computadoras = computadoraDAO.obtenerComputadoras();
-                request.setAttribute("computadoras", computadoras);
-               request.getRequestDispatcher("computadora.jsp").forward(request, response);
-
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        } else if (action.equals("edit")) {
-            // Buscar una computadora por ID
-            int id = Integer.parseInt(request.getParameter("id"));
-            try {
-                Computadora computadora = computadoraDAO.buscarComputadoraPorId(id);
-                request.setAttribute("computadora", computadora);
-                request.getRequestDispatcher("editComputadora.jsp").forward(request, response);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+    if (action == null) {
+        // Obtener todas las computadoras
+        try {
+            List<Computadora> computadoras = computadoraDAO.obtenerComputadoras();
+            request.setAttribute("computadoras", computadoras);
+            request.getRequestDispatcher("computadora.jsp").forward(request, response);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtener las computadoras.");
+        }
+    } else if (action.equals("edit")) {
+        // Buscar una computadora por ID
+        int id = Integer.parseInt(request.getParameter("id"));
+        try {
+            Computadora computadora = computadoraDAO.buscarComputadoraPorId(id);
+            request.setAttribute("computadora", computadora);
+            request.getRequestDispatcher("editComputadora.jsp").forward(request, response);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al buscar la computadora.");
+        }
+    } else if (action.equals("delete")) {
+        // Eliminar una computadora
+        int id = Integer.parseInt(request.getParameter("id"));
+        try {
+            computadoraDAO.eliminarComputadora(id);
+            System.out.println("Computadora eliminada con ID: " + id);
+            response.sendRedirect("ComputadoraServlet"); // Redirigir después de eliminar
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al eliminar la computadora.");
         }
     }
+}
+
 
    @Override
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -94,20 +94,20 @@ public List<Pieza> obtenerTodasLasPiezas() throws ClassNotFoundException {
     }
 
     // Método para eliminar una pieza
-    public boolean eliminarPieza(int id) throws ClassNotFoundException {
-        String query = "DELETE FROM Pieza WHERE id = ?";
+public boolean eliminarPieza(int idPieza) throws ClassNotFoundException {
+    String sql = "DELETE FROM piezas WHERE id_pieza = ?";
 
-        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setInt(1, id);
-
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, idPieza);
+        int filasAfectadas = stmt.executeUpdate();
+        
+        return filasAfectadas > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
-
+}
     // Método para obtener una pieza por ID
     public Pieza obtenerPiezaPorId(int id) throws ClassNotFoundException {
         String query = "SELECT * FROM Pieza WHERE id = ?";
