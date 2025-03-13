@@ -35,7 +35,7 @@
                         <li class="nav-item"><a class="nav-link" href="VentaServlet">Registrar Ventas</a></li>
                         <li class="nav-item"><a class="nav-link" href="devoluciones.jsp">Computadoras Devueltas</a></li>
                         <li class="nav-item"><a class="nav-link" href="facturas.jsp">Consultar Facturas</a></li>
-                        <li class="nav-item"><a class="nav-link" href="historial_compras.jsp">Historial de Compras</a></li>
+                        <li class="nav-item"><a class="nav-link" href="HistorialComprasServlet">Historial de Compras</a></li>
                         <li class="nav-item"><a class="nav-link" href="historial_devoluciones.jsp">Historial de Devoluciones</a></li>
                         <li class="nav-item"><a class="nav-link" href="computadoras_disponibles.jsp">Computadoras Disponibles</a></li>
                         <li class="nav-item"><a class="nav-link" href="ventas_dia.jsp">Ventas del Día</a></li>

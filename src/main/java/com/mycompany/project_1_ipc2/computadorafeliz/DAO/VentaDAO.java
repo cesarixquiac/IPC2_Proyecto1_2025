@@ -10,7 +10,12 @@ package com.mycompany.project_1_ipc2.computadorafeliz.DAO;
  */
 import com.mycompany.project_1_ipc2.computadorafeliz.models.Venta;
 import com.mycompany.project_1_ipc2.computadorafeliz.db.DatabaseConnection;
+import com.mycompany.project_1_ipc2.computadorafeliz.models.Cliente;
+import com.mycompany.project_1_ipc2.computadorafeliz.models.User;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VentaDAO {
     
@@ -59,4 +64,44 @@ public class VentaDAO {
         }
         return false;
     }
+public List<Venta> obtenerHistorialComprasPorCliente(int clienteId) throws ClassNotFoundException {
+    List<Venta> compras = new ArrayList<>();
+    String sql = "SELECT v.id_venta, v.fecha_venta, v.total_venta FROM ventas v WHERE v.id_cliente = ?";
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setInt(1, clienteId);
+        System.out.println("Ejecutando consulta: " + stmt.toString()); // Para ver la consulta con el ID
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            int idVenta = rs.getInt("id_venta");
+            LocalDateTime fecha = rs.getTimestamp("fecha_venta").toLocalDateTime();
+            double total = rs.getDouble("total_venta");
+
+            System.out.println("Venta encontrada - ID: " + idVenta + ", Fecha: " + fecha + ", Total: " + total);
+
+            compras.add(new Venta(idVenta, null, null, fecha, total));
+        }
+
+        if (compras.isEmpty()) {
+            System.out.println("No se encontraron compras para el cliente con ID: " + clienteId);
+        }
+
+    } catch (SQLException ex) {
+        System.out.println("Error al obtener historial de compras: " + ex.getMessage());
+        ex.printStackTrace();
+    }
+
+    return compras;
+}
+
+
+
+
+
+    
+    
 }

@@ -116,34 +116,32 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 
     // Suponiendo que el usuario está almacenado en la sesión
     HttpSession session = request.getSession();
-    
-    User usuario = (User) session.getAttribute("usuario"); // Asegúrate de que el usuario esté en sesión
-    System.out.println("Usuario en sesión: " + (usuario != null ? usuario.getId() : "null")) ;
-    // Crear el objeto Venta correctamente
-    Venta venta = new Venta(0, cliente, usuario, LocalDateTime.now(), total);
-    
-        System.out.println("Computadora ID: " + computadoraId);
+    User usuario = (User) session.getAttribute("usuario"); 
+
     System.out.println("Usuario en sesión: " + (usuario != null ? usuario.getId() : "null"));
+    System.out.println("Computadora ID: " + computadoraId);
     System.out.println("Cliente ID: " + (cliente != null ? cliente.getId() : "null"));
 
-    
+    // Obtener el ID de la computadora ensamblada
+    int idComputadoraEnsamblada = computadoraDAO.obtenerIdComputadoraEnsamblada(computadoraId);
+
+    // Verificar si realmente existe antes de registrar la venta
+    if (idComputadoraEnsamblada == -1) {
+        System.out.println("Error: No se encontró la computadora ensamblada para la computadora ID " + computadoraId);
+        response.sendRedirect("ventas.jsp?error=computadoraNoEnsamblada");
+        return;
+    }
+
+    // Si la computadora está ensamblada, proceder con la venta
+    Venta venta = new Venta(0, cliente, usuario, LocalDateTime.now(), total);
     int ventaId = ventaDAO.registrarVenta(venta);
 
-  // Obtener el ID de la computadora ensamblada
-int idComputadoraEnsamblada = computadoraDAO.obtenerIdComputadoraEnsamblada(computadoraId);
-
-// Verificar si realmente existe antes de registrar
-if (idComputadoraEnsamblada == -1) {
-    System.out.println("Error: No se encontró la computadora ensamblada para la computadora ID " + computadoraId);
-    response.sendRedirect("ventas.jsp?error=computadoraNoEnsamblada");
-    return;
-}
-
-// Ahora registrar con el ID correcto
-ventaDAO.registrarDetalleVenta(ventaId, idComputadoraEnsamblada, 1, computadora.getPrecio());
+    // Registrar el detalle de la venta con el ID correcto
+    ventaDAO.registrarDetalleVenta(ventaId, idComputadoraEnsamblada, 1, computadora.getPrecio());
 
     response.sendRedirect("ventas.jsp?success=true");
 }
+
 
 
 
